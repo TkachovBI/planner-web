@@ -1,0 +1,14 @@
+.h-1{
+  height: 80vh;
+}
+.errorMessage{
+  text-align: center;
+  width: 80%;
+  margin: auto;
+  background-color: red;
+  color: black;
+  font-weight: bold;
+  padding: 1vw;
+  border-radius: 0.5vw;
+}
+

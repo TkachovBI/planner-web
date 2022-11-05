@@ -1,0 +1,81 @@
+<div class="container">
+  <section class="h-1">
+    <div class="px-6 h-full text-gray-800">
+      <div
+        class="flex xl:justify-center lg:justify-between items-center flex-wrap h-full g-6"
+      >
+        <div class="xl:ml-20 xl:w-1/4 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+          <form  class="card" [formGroup]="form" (ngSubmit)="loginUser()">
+            <div
+              class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
+            >
+              <p class="text-center font-semibold mx-4 mb-0">Sign in</p>
+            </div>
+
+            <!-- Email input -->
+            <div class="mb-6">
+              <input
+                type="text"
+                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                placeholder="User name"
+                formControlName="name"
+              />
+              <div
+                *ngIf="form.get('name')!.invalid && form.get('name')!.touched"
+                class="validation">
+                <small *ngIf="form.get('name')!.errors!['required']" class="text-red-600">
+                  Field UserName cannot be empty
+                </small>
+
+                <small *ngIf="form.get('name')!.errors!['minlength']" class="text-red-600">
+                  Write UserName longer than 8 symbols
+                </small>
+              </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="mb-6 form-control">
+              <input
+                type="password"
+                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-green-500 focus:outline-none"
+                placeholder="Password"
+                formControlName="password"
+              />
+              <div class="validation" *ngIf="form.get('password')!.invalid && form.get('password')!.touched">
+                <small *ngIf="form.get('password')!.errors!['required']" class="text-red-600">
+                  Field Password cannot be empty
+                </small>
+
+                <small *ngIf="form.get('password')!.errors!['minlength']" class="text-red-600">
+                  Write Password longer than 8 symbols
+                </small>
+              </div>
+            </div>
+
+            <div class="text-center lg:text-center">
+              <button
+                type="submit"
+                class="btn inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:border-red-600 focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                [disabled]="form.invalid"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="errorMessage" *ngIf="errorMsg !== ''">
+    {{ errorMsg }}
+  </div>
+</div>
+
+<div class="loadingContainer" *ngIf="isLoading">
+  <div class="loading-text">
+    <span class="loader">Loading...</span>
+    <div class="load_anim1"></div>
+    <div class="load_anim2"></div>
+  </div>
+</div>
