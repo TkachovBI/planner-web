@@ -10,10 +10,10 @@ import { LinkService } from 'src/services/links-services/LinkService';
 export class LinksRepository {
   constructor(private http: HttpClient, private links: LinkService) {}
 
-  getLinksByEventId(linkId: number) {
+  getLinksByEventId(eventId: number) {
     return this.http
       .get<LinkResponse[]>(
-        this.links.getLinkToApi(`/api/admin/v1/link/byEventId/${linkId}`)
+        this.links.getLinkToApi(`/api/admin/v1/link/byEventId/${eventId}`)
       )
       .toPromise();
   }
@@ -21,9 +21,22 @@ export class LinksRepository {
   updateLink(id: number, updatedLink: LinkRequest) {
     return this.http
       .put<LinkResponse>(
-        this.links.getLinkToApi(`/api/admin/v1/link/byEventId/${id}`),
+        this.links.getLinkToApi(`/api/admin/v1/link/${id}`),
         updatedLink
       )
       .toPromise();
+  }
+
+  deleteLink(id: number) {
+    return this.http
+      .delete(this.links.getLinkToApi(`/api/admin/v1/link/${id}`))
+      .toPromise();
+  }
+
+  createLink(link: LinkRequest) {
+    return this.http.post<LinkResponse>(
+      this.links.getLinkToApi(`/api/admin/v1/link/create`),
+      link
+    ).toPromise();
   }
 }

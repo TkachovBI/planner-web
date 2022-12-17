@@ -41,4 +41,8 @@ export class SocialsService {
   async deleteSocial(id: number) {
     await this.socialsRepository.deleteSocial(id);
   }
+
+  async createSocial(newSocial: SocialRequest){
+    return await this.socialsRepository.createSocial(newSocial);
+  }
 }

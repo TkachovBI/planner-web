@@ -23,11 +23,15 @@ export class EventService {
 
     return events;
   }
-  async getEventById(id: number){
+  async getEventById(id: number) {
     return await this.eventRepository.getEvent(id);
   }
 
-  async updateEvent(id: number, updatedEvent: EventRequest){
+  async updateEvent(id: number, updatedEvent: EventRequest) {
     return await this.eventRepository.updateEvent(id, updatedEvent);
+  }
+
+  async deleteEvent(id: number) {
+    return await this.eventRepository.deleteEvent(id);
   }
 }

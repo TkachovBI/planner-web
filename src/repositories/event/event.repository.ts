@@ -30,4 +30,10 @@ export class EventRepository {
       )
       .toPromise();
   }
+
+  public async deleteEvent(id: number) {
+    return await this.http
+      .delete(this.links.getLinkToApi(`/api/admin/v1/event/${id}`))
+      .toPromise();
+  }
 }

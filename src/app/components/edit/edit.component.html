@@ -92,7 +92,7 @@
             </small>
           </div>
         </div>
-        <div class="flex flex-row justify-evenly font-bold text-gray-700">
+        <div class="flex flex-row justify-evenly font-bold text-gray-700 mb-3">
           <button
             type="submit"
             [disabled]="eventForm.invalid"
@@ -107,6 +107,17 @@
             Cansel
           </button>
         </div>
+        <div
+          class="flex flex-row items-center justify-center font-bold text-gray-700"
+        >
+          <button
+            type="button"
+            (click)="deleteEvent()"
+            class="bg-yellow-400 rounded border border-black py-1.5 px-4"
+          >
+            Delete
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -115,11 +126,13 @@
   >
     <span class="mb-4">Edit socials</span>
 
-    <div class="h-full flex flex-col bg-slate-400 px-2">
-      <div class="flex justify-end mb-2 pb-2">
+    <div
+      class="h-full flex flex-col bg-slate-400 px-2 overflow-y-auto max-h-[248px]"
+    >
+      <div class="flex justify-end mb-0.5 pb-2">
         <button
-          class="bg-green-400 text-sm border border-black rounded-full w-fit mr-2 mt-1 px-2 py-0.5"
-          (click)="showAddSocialBar = true"
+          class="bg-green-400 text-sm border border-black rounded-full w-full text-center mt-1 px-2 py-0.5"
+          (click)="changeVisibilityAddSocialBar()"
         >
           +
         </button>
@@ -129,7 +142,12 @@
         <h3>Create Social</h3>
         <div class="h-px w-full bg-slate-500 mb-2"></div>
 
-        <form action="post" class="flex flex-col items-start text-left">
+        <form
+          [formGroup]="socialForm"
+          method="post"
+          (ngSubmit)="createSocial()"
+          class="flex flex-col items-start text-left"
+        >
           <div class="mb-2 flex flex-row space-x-4 items-center">
             <label for="socialName" class="text-sm font-medium text-gray-700"
               >Social name</label
@@ -137,12 +155,13 @@
             <select
               name="socialName"
               id="socialName"
+              formControlName="name"
               class="border rounded-md border-gray-700 bg-slate-300 px-1.5 text-base font-medium text-gray-600"
             >
               <option value="discord">Discord</option>
               <option value="telegram">Telegram</option>
               <option value="tiktok">Tik Tok</option>
-              <option value="facebook">Facebook</option>
+              <option value="instagram">Instagram</option>
               <option value="vk">Vk</option>
               <option value="youtube">YouTube</option>
             </select>
@@ -154,6 +173,7 @@
             <select
               name="socialName"
               id="socialName"
+              formControlName="status"
               class="border rounded-md border-gray-700 bg-slate-300 px-1.5 text-base font-medium text-gray-600"
             >
               <option value="{{ notPublishedStatus }}">Not published</option>
@@ -161,8 +181,16 @@
             </select>
           </div>
           <div class="flex w-full justify-evenly">
-            <button>Create</button>
-            <button>Cansel</button>
+            <button type="submit" class="bg-green-300 rounded-md px-2 py-1">
+              Create
+            </button>
+            <button
+              type="reset"
+              (click)="changeVisibilityAddSocialBar()"
+              class="bg-red-300 rounded-md px-2 py-1"
+            >
+              Cansel
+            </button>
           </div>
         </form>
       </div>
@@ -203,14 +231,14 @@
             *ngIf="social.name === 'telegram'"
           />
           <img
-            src="../../../assets/Icons/facebook.png"
-            alt="facebookIcon"
+            src="../../../assets/Icons/youtube.png"
+            alt="ytIcon"
             class="w-8 h-8 rounded-full  border-2 {{
               social.status == publishedStatus
                 ? 'border-green-500'
                 : 'border-red-500'
             }}"
-            *ngIf="social.name === 'facebook'"
+            *ngIf="social.name === 'youtube'"
           />
           <img
             src="../../../assets/Icons/inst.png"
@@ -249,7 +277,148 @@
   <div
     class="w-64 py-4 bg-slate-100 rounded-2xl flex flex-col justify-center align-middle text-center"
   >
-    Edit links
+    <span class="mb-4"> Edit links </span>
+    <div
+      class="h-full flex flex-col py-1.5 bg-slate-400 px-2 overflow-y-auto max-h-[248px] space-y-2"
+    >
+      <button
+        type="button"
+        (click)="changeVisibilityAddLinkWindow()"
+        class="w-full text-center bg-slate-200 rounded-lg border border-black"
+      >
+        +
+      </button>
+      <form
+        *ngIf="showAddLinkBar"
+        class="w-full bg-white rounded-lg p-2 font-semibold"
+        method="post"
+        (ngSubmit)="createLink()"
+        [formGroup]="linkForm"
+      >
+        <h3 class="text-2xl text-gray-700">Create link</h3>
+        <div class="text-sm text-gray-600 mb-2">
+          <label for="taskInput">Task link</label>
+          <input
+            id="taskInput"
+            formControlName="task"
+            type="url"
+            class="w-full border border-gray-400 rounded px-2 py-0.5"
+            placeholder="https://www.atlassian.com/ru/software/jira"
+          />
+        </div>
+        <div class="text-sm text-gray-600 mb-2">
+          <label for="materialsInput">Materials link</label>
+          <input
+            id="materialsInput"
+            type="url"
+            formControlName="materials"
+            class="w-full border border-gray-400 rounded px-2 py-0.5"
+            placeholder="https://drive.google.com/"
+          />
+        </div>
+        <div class="flex w-full justify-evenly">
+          <button
+            class="text-white bg-green-400 py-1 px-3 rounded"
+            type="submit"
+          >
+            Create
+          </button>
+          <button
+            class="text-white bg-red-400 py-1 px-3 rounded"
+            type="reset"
+            (click)="changeVisibilityAddLinkWindow()"
+          >
+            Cansel
+          </button>
+        </div>
+      </form>
+      <form
+        *ngIf="showUpdateLinkBar"
+        class="w-full bg-white rounded-lg p-2 font-semibold"
+        method="post"
+        (ngSubmit)="updateLink()"
+        [formGroup]="linkUpdateForm"
+      >
+        <h3 class="text-2xl text-gray-700">Update link</h3>
+        <div class="text-sm text-gray-600 mb-2">
+          <label for="taskInput">Task link</label>
+          <input
+            id="taskInput"
+            formControlName="task"
+            type="url"
+            class="w-full border border-gray-400 rounded px-2 py-0.5"
+            placeholder="https://www.atlassian.com/ru/software/jira"
+          />
+        </div>
+        <div class="text-sm text-gray-600 mb-2">
+          <label for="materialsInput">Materials link</label>
+          <input
+            id="materialsInput"
+            type="url"
+            formControlName="materials"
+            class="w-full border border-gray-400 rounded px-2 py-0.5"
+            placeholder="https://drive.google.com/"
+          />
+        </div>
+        <div class="flex w-full justify-evenly">
+          <button
+            class="text-white bg-green-400 py-1 px-3 rounded"
+            type="submit"
+          >
+            Update
+          </button>
+          <button
+            class="text-white bg-red-400 py-1 px-3 rounded"
+            type="reset"
+            (click)="changeShowUpdateLinkBar()"
+          >
+            Cansel
+          </button>
+        </div>
+      </form>
+      <div
+        *ngFor="let link of links"
+        class="flex py-2 px-5 bg-gray-100 rounded-lg flex-row items-center justify-between"
+      >
+        <div class="flex flex-row space-x-5">
+          <a href="{{ link.task }}" target="_blank">
+            <img
+              src="../../../assets/Icons/task.png"
+              alt="taskIcons"
+              class="w-4 h-4"
+            />
+          </a>
+          <a href="{{ link.material }}" target="_blank">
+            <img
+              src="../../../assets/Icons/materials.png"
+              alt="matIcon"
+              class="w-4 h-4"
+            />
+          </a>
+        </div>
+        <div>
+          <div>
+            <button
+              type="button"
+              class="p-2 w-8 h-8"
+              (click)="showLinkUpdateWindow(link.id)"
+            >
+              <img
+                src="../../../assets/Icons/pen-and-paper.svg"
+                alt="editIcon"
+              />
+            </button>
+            <button
+              type="button"
+              class="p-2 w-8 h-8"
+              (click)="showDeleteLinkSureWindow(link.id)"
+            >
+              <img src="../../../assets/Icons/Delete.png" alt="delIcon" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="flex justify-center flex-row mt-4">
@@ -288,6 +457,34 @@
       </button>
       <button
         (click)="closeShowWindow()"
+        class="py-2 px-4 bg-red-400 rounded-2xl"
+      >
+        Canсel
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="showSureDeleteLinkWindow"
+  class="absolute top-0 bottom-0 right-0 left-0 bg-slate-700 opacity-90 z-50 flex justify-center"
+>
+  <div class="w-1/5 bg-white my-auto flex flex-col p-4 rounded-2xl">
+    <img
+      src="../../../assets/Icons/Question.png"
+      alt="question icon"
+      class="w-8 h-8 mx-auto"
+    />
+    <div class="w-full h-0.5 bg-gray-700 mt-2 rounded-sm"></div>
+    <h3 class="m-auto text-lg font-medium text-red-400">
+      You want to delete link?
+    </h3>
+    <div class="flex justify-evenly mt-4 text-lg font-semibold">
+      <button (click)="deleteLink()" class="py-2 px-4 bg-green-400 rounded-2xl">
+        Delete
+      </button>
+      <button
+        (click)="closeDeleteLinkShowWindow()"
         class="py-2 px-4 bg-red-400 rounded-2xl"
       >
         Canсel

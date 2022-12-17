@@ -32,4 +32,10 @@ export class SocialsRepository {
       .delete(this.links.getLinkToApi(`/api/admin/v1/social/${id}`))
       .toPromise();
   }
+
+  async createSocial(social: SocialRequest){
+    return await this.http
+      .post<SocialResponse>(this.links.getLinkToApi(`/api/admin/v1/social/create`), social)
+      .toPromise();
+  }
 }
