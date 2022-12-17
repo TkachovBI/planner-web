@@ -1,0 +1,190 @@
+<div
+  class="w-screen min-h-screen bg-slate-200 text-white flex align-middle flex-col"
+>
+  <header
+    class="text-white p-2 bg-slate-700 h-fit w-full flex align-middle justify-center"
+  >
+    Switcher
+  </header>
+  <main class="text-black w-full h-full overflow-x-auto">
+    <table class="mx-auto">
+      <thead>
+        <tr>
+          <th class="p-3" *ngFor="let dayName of dayNames">{{ dayName }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let week of calendarBlocksData">
+          <td class="p-1 align-top rounded-lg" *ngFor="let day of week">
+            <div
+              class="w-52 bg-slate-400 p-2 rounded-2xl"
+              *ngIf="day !== undefined"
+            >
+              <div class="flex flex-row justify-between w-full">
+                <div
+                  class=" {{
+                    isToday(day)
+                      ? 'w-8 h-8 rounded-full bg-red-400 text-white text-center pt-1'
+                      : 'w-8 h-8 rounded-full bg-white text-blue-700 font-semibold text-center pt-1'
+                  }}"
+                >
+                  {{ day.getDate() }}
+                </div>
+                <button>+</button>
+              </div>
+              <div class="w-full h-0.5 bg-slate-100 rounded-full my-2"></div>
+              <div class="flex flex-col w-full max-h-60 overflow-y-auto">
+                <div
+                  class="flex flex-col bg-slate-300 px-2 py-1 my-1 rounded-lg"
+                  *ngFor="let event of getEventsByDay(day)"
+                >
+                  <div class="flex justify-between w-full">
+                    <p class="text-gray-700">
+                      {{ event.title }}
+                    </p>
+                    <div>
+                      <button (click)="navigateToSettingPage(event.id)">
+                        <img
+                          class="h-4"
+                          src="../../../assets/Icons/pen-and-paper.svg"
+                          alt="edit"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  <div class="flex flex-row w-full justify-center">
+                    <div
+                      *ngIf="
+                        socialCache[event.id] &&
+                        socialCache[event.id].length > 0
+                      "
+                      class="flex justify-evenly flex-wrap w-2/3 mr-2 align-middle"
+                    >
+                      <button
+                        *ngFor="let social of socialCache[event.id]"
+                        (click)="updateSocialClickHandler(social)"
+                        class="rounded-full p-0.5 border-2 {{
+                          social.status === publishedStatus
+                            ? 'border-green-400'
+                            : 'border-red-400'
+                        }}"
+                      >
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'telegram'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/telegram.png"
+                          alt="tg_icon"
+                        />
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'discord'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/discord.png"
+                          alt="ds_icon"
+                        />
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'youtube'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/youtube.png"
+                          alt="yt_icon"
+                        />
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'tiktok'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/tiktok.png"
+                          alt="tt_icon"
+                        />
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'vk'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/vk.png"
+                          alt="мл_icon"
+                        />
+                        <img
+                          *ngIf="social.name.toLowerCase() === 'instagram'"
+                          class="flex w-6"
+                          src="../../../assets/Icons/instagram.png"
+                          alt="inst_icon"
+                        />
+                      </button>
+                    </div>
+                    <div
+                      class="flex mx-auto font-semibold text-center text-pink-500"
+                    >
+                      {{ event.budget }}$
+                    </div>
+                  </div>
+                  <div class="flex align-middle justify-center">
+                    <div
+                      *ngFor="let link of linksCache[event.id]"
+                      class="flex flex-col mr-1"
+                    >
+                      <a
+                        href="{{ link.task }}"
+                        class="p-0.5 w-6 h-6"
+                        target="_blank"
+                      >
+                        <img
+                          src="../../../assets/Icons/task.png"
+                          alt="taskIcon"
+                        />
+                      </a>
+                      <a
+                        href="{{ link.material }}"
+                        class="p-0.5 w-6 h-6"
+                        target="_blank"
+                      >
+                        <img
+                          src="../../../assets/Icons/materials.png"
+                          alt="MatIcon"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<div
+  *ngIf="showShureWindow"
+  class="absolute top-0 bottom-0 right-0 left-0 bg-slate-700 opacity-90 z-50 flex justify-center"
+>
+  <div class="w-1/5 bg-white my-auto flex flex-col p-4 rounded-2xl">
+    <img
+      src="../../../assets/Icons/Question.png"
+      alt="question icon"
+      class="w-8 h-8 mx-auto"
+    />
+    <div class="w-full h-0.5 bg-gray-700 mt-2 rounded-sm"></div>
+    <h3 class="m-auto text-lg font-medium text-red-400">
+      You want to change social status?
+    </h3>
+    <div class="flex justify-evenly mt-4 text-lg font-semibold">
+      <button
+        (click)="updateSocial()"
+        class="py-2 px-4 bg-green-400 rounded-2xl"
+      >
+        Submit
+      </button>
+      <button
+        (click)="closeShowWindow()"
+        class="py-2 px-4 bg-red-400 rounded-2xl"
+      >
+        Canсel
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="loadingContainer" *ngIf="isLoadingWindowActive">
+  <div class="loading-text">
+    <span class="loader">Loading...</span>
+    <div class="load_anim1"></div>
+    <div class="load_anim2"></div>
+  </div>
+</div>

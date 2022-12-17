@@ -15,9 +15,10 @@ import { SocialsRepository } from 'src/repositories/event/socials/social.reposit
 import { EventService } from 'src/services/event-services/event-service.module';
 import { SocialsService } from 'src/services/event-services/socials-services/socials-service.module';
 import { LinkService } from 'src/services/links-services/LinkService';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, EditComponent],
+  declarations: [AppComponent, LoginComponent, EditComponent, CalendarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
