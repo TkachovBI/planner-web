@@ -34,4 +34,13 @@ export class EventService {
   async deleteEvent(id: number) {
     return await this.eventRepository.deleteEvent(id);
   }
+
+  async createEvent(date: Date, title: string, budget: number) {
+    const newEvent: EventRequest = {
+      date: date,
+      title: title,
+      budget: budget,
+    };
+    return await this.eventRepository.createEvent(newEvent);
+  }
 }

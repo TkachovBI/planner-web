@@ -16,9 +16,10 @@ import { EventService } from 'src/services/event-services/event-service.module';
 import { SocialsService } from 'src/services/event-services/socials-services/socials-service.module';
 import { LinkService } from 'src/services/links-services/LinkService';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { AddComponent } from './components/add/add.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, EditComponent, CalendarComponent],
+  declarations: [AppComponent, LoginComponent, EditComponent, CalendarComponent, AddComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

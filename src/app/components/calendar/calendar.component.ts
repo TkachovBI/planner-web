@@ -97,7 +97,7 @@ export class CalendarComponent implements OnInit {
     this.showShureWindow = false;
   }
   updateSocial() {
-    this.selectedSocial.status = SocialStatus.PUBLISHED
+    this.selectedSocial.status = SocialStatus.PUBLISHED;
     this.socialsService
       .updateSocial(this.selectedSocial)
       .then(() => window.location.reload());
@@ -105,5 +105,9 @@ export class CalendarComponent implements OnInit {
 
   navigateToSettingPage(eventId: number) {
     this.router.navigateByUrl(`/edit/${eventId}`);
+  }
+
+  navigateToEditPage(day: number) {
+    this.router.navigateByUrl(`/add/${this.monthId+1}-${day}-${this.year}`);
   }
 }
