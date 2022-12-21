@@ -36,4 +36,10 @@ export class EventRepository {
       .delete(this.links.getLinkToApi(`/api/admin/v1/event/${id}`))
       .toPromise();
   }
+
+  public async createEvent(newEvent: EventRequest) {
+    return await this.http
+      .post(this.links.getLinkToApi(`/api/admin/v1/event/create`), newEvent)
+      .toPromise();
+  }
 }
