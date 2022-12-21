@@ -17,7 +17,9 @@ import { getWeekDayNames, monthData } from 'src/utils/calendar/calendar.utils';
 })
 export class CalendarComponent implements OnInit {
   monthId: number = 0;
+  monthString: string = '';
   year: number = 2022;
+
   events: EventResponse[] = [];
   isLoadingWindowActive: boolean = true;
   calendarBlocksData: (Date | undefined)[][] = [[undefined]];
@@ -52,6 +54,10 @@ export class CalendarComponent implements OnInit {
       .split('-');
     this.monthId = Number.parseInt(monthAndYear[0]);
     this.year = Number.parseInt(monthAndYear[1]);
+
+    this.monthId < 9
+      ? (this.monthString = `0${this.monthId + 1}`)
+      : (this.monthString = `${this.monthId + 1}`);
     this.calendarBlocksData = monthData(this.year, this.monthId).result;
     this.dayNames = getWeekDayNames();
     this.events = await this.eventService.getEventsInMonth(
@@ -87,15 +93,18 @@ export class CalendarComponent implements OnInit {
       (event) => new Date(event.date).getDate() === day.getDate()
     );
   }
+
   updateSocialClickHandler(social: SocialResponse) {
     if (social.status !== SocialStatus.PUBLISHED) {
       this.selectedSocial = social;
       this.showShureWindow = true;
     }
   }
+
   closeShowWindow() {
     this.showShureWindow = false;
   }
+
   updateSocial() {
     this.selectedSocial.status = SocialStatus.PUBLISHED;
     this.socialsService
@@ -108,6 +117,48 @@ export class CalendarComponent implements OnInit {
   }
 
   navigateToEditPage(day: number) {
-    this.router.navigateByUrl(`/add/${this.monthId+1}-${day}-${this.year}`);
+    this.router.navigateByUrl(`/add/${this.monthId + 1}-${day}-${this.year}`);
+  }
+
+  navigateNextMonth() {
+    console.log('next');
+
+    if (this.monthId === 11) {
+      this.router
+        .navigateByUrl(`/calendar/0-${this.year + 1}`)
+        .then(() => window.location.reload());
+    } else {
+      this.router
+        .navigateByUrl(`/calendar/${this.monthId + 1}-${this.year}`)
+        .then(() => window.location.reload());
+    }
+  }
+
+  navigatePrevMonth() {
+    console.log('prev');
+
+    if (this.monthId === 0) {
+      this.router
+        .navigateByUrl(`/calendar/11-${this.year - 1}`)
+        .then(() => window.location.reload());
+    } else {
+      this.router
+        .navigateByUrl(`/calendar/${this.monthId - 1}-${this.year}`)
+        .then(() => window.location.reload());
+    }
+  }
+
+  onChangeMonthHandler(event: Event) {
+    console.log('change');
+
+    // @ts-ignore
+    const value = event.target.value;
+
+    const year = Number(value.split('-')[0]);
+    const month = Number(value.split('-')[1]);
+
+    this.router
+      .navigateByUrl(`/calendar/${month - 1}-${year}`)
+      .then(() => window.location.reload());
   }
 }
