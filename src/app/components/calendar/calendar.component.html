@@ -4,11 +4,11 @@
   <header
     class="p-2 bg-slate-700 h-fit w-full flex align-middle justify-center space-x-4"
   >
-    <button type="button" class="align-middle" (click)="navigatePrevMonth()">
+    <button type="button" class="align-middle bg-white p-1 rounded" (click)="navigatePrevMonth()">
       <img
         src="../../../assets/Icons/arrow-top.svg"
         alt="arrow"
-        class="-rotate-90 w-6 h-6"
+        class="-rotate-90 w-4 h-4"
       />
     </button>
     <input
@@ -17,11 +17,11 @@
       (change)="onChangeMonthHandler($event)"
       value="{{ year }}-{{ monthString }}"
     />
-    <button type="button" class="align-middle" (click)="navigateNextMonth()">
+    <button type="button" class="align-middle bg-white p-1 rounded" (click)="navigateNextMonth()">
       <img
         src="../../../assets/Icons/arrow-top.svg"
         alt="arrow"
-        class="rotate-90 w-6 h-6"
+        class="rotate-90 w-4 h-4"
       />
     </button>
   </header>
