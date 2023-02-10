@@ -6,7 +6,7 @@ import {Injectable} from "@angular/core";
 
 export class LinkService {
   getLinkToApi(link: string){
-    return `http://54.173.64.17:8080${link}`;
+    return `http://54.209.89.102:8080${link}`;
   }
 
   getLinkToActualCalendarPage(){

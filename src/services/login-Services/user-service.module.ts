@@ -12,7 +12,9 @@ export class UserService {
   }
 
   loginUser(userName: string, password: string) {
-    return this.userRepository.loginUser({name: userName, password: password, status: UserStatus.USER});
+    
+    
+    return this.userRepository.loginUser({name: userName, password: password, status: UserStatus.ADMIN});
   }
 
 }
