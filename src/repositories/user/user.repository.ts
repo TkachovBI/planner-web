@@ -11,8 +11,8 @@ export class UserRepository {
   constructor(private http: HttpClient, private links: LinkService) {}
 
   public loginUser(user: UserRequest) {
-    return this.http.post<UserResponse>(
-      this.links.getLinkToApi('/api/admin/v1/user/login'),
+    return this.http.put<UserResponse>(
+      this.links.getLinkToApi('/user/login'),
       user
     );
   }

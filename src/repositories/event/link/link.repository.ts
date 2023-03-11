@@ -13,7 +13,7 @@ export class LinksRepository {
   getLinksByEventId(eventId: number) {
     return this.http
       .get<LinkResponse[]>(
-        this.links.getLinkToApi(`/api/admin/v1/link/byEventId/${eventId}`)
+        this.links.getLinkToApi(`/link/event/${eventId}`)
       )
       .toPromise();
   }
@@ -21,7 +21,7 @@ export class LinksRepository {
   updateLink(id: number, updatedLink: LinkRequest) {
     return this.http
       .put<LinkResponse>(
-        this.links.getLinkToApi(`/api/admin/v1/link/${id}`),
+        this.links.getLinkToApi(`/link/${id}`),
         updatedLink
       )
       .toPromise();
@@ -29,13 +29,13 @@ export class LinksRepository {
 
   deleteLink(id: number) {
     return this.http
-      .delete(this.links.getLinkToApi(`/api/admin/v1/link/${id}`))
+      .delete(this.links.getLinkToApi(`/link/${id}`))
       .toPromise();
   }
 
   createLink(link: LinkRequest) {
     return this.http.post<LinkResponse>(
-      this.links.getLinkToApi(`/api/admin/v1/link/create`),
+      this.links.getLinkToApi(`/link`),
       link
     ).toPromise();
   }

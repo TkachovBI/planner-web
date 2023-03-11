@@ -12,20 +12,20 @@ export class EventRepository {
 
   public async getEvents() {
     return await this.http
-      .get<EventResponse[]>(this.links.getLinkToApi('/api/admin/v1/event'))
+      .get<EventResponse[]>(this.links.getLinkToApi('/event'))
       .toPromise();
   }
 
   public async getEvent(id: number) {
     return await this.http
-      .get<EventResponse>(this.links.getLinkToApi(`/api/admin/v1/event/${id}`))
+      .get<EventResponse>(this.links.getLinkToApi(`event/${id}`))
       .toPromise();
   }
 
   public async updateEvent(id: number, updatedEvent: EventRequest) {
     return await this.http
       .put<EventResponse>(
-        this.links.getLinkToApi(`/api/admin/v1/event/${id}`),
+        this.links.getLinkToApi(`/event/${id}`),
         updatedEvent
       )
       .toPromise();
@@ -33,13 +33,13 @@ export class EventRepository {
 
   public async deleteEvent(id: number) {
     return await this.http
-      .delete(this.links.getLinkToApi(`/api/admin/v1/event/${id}`))
+      .delete(this.links.getLinkToApi(`/event/${id}`))
       .toPromise();
   }
 
   public async createEvent(newEvent: EventRequest) {
     return await this.http
-      .post(this.links.getLinkToApi(`/api/admin/v1/event/create`), newEvent)
+      .post(this.links.getLinkToApi(`/event`), newEvent)
       .toPromise();
   }
 }

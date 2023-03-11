@@ -13,7 +13,7 @@ export class SocialsRepository {
   async getSocialsByEventId(eventId: number) {
     return await this.http
       .get<SocialResponse[]>(
-        this.links.getLinkToApi(`/api/admin/v1/social/byEventId/${eventId}`)
+        this.links.getLinkToApi(`/social/event/${eventId}`)
       )
       .toPromise();
   }
@@ -21,7 +21,7 @@ export class SocialsRepository {
   async updateSocial(socialId: number, social: SocialRequest) {
     return await this.http
       .put<SocialRequest>(
-        this.links.getLinkToApi(`/api/admin/v1/social/${socialId}`),
+        this.links.getLinkToApi(`/social/${socialId}`),
         social
       )
       .toPromise();
@@ -29,13 +29,13 @@ export class SocialsRepository {
 
   async deleteSocial(id: number) {
     return await this.http
-      .delete(this.links.getLinkToApi(`/api/admin/v1/social/${id}`))
+      .delete(this.links.getLinkToApi(`/social/${id}`))
       .toPromise();
   }
 
   async createSocial(social: SocialRequest){
     return await this.http
-      .post<SocialResponse>(this.links.getLinkToApi(`/api/admin/v1/social/create`), social)
+      .post<SocialResponse>(this.links.getLinkToApi(`/social`), social)
       .toPromise();
   }
 }
