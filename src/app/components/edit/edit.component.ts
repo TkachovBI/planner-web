@@ -154,14 +154,16 @@ export class EditComponent implements OnInit {
   updateSocialClickHandler(social: SocialResponse) {
     this.selectedSocial = social;
 
-    social.status === SocialStatus.PUBLISHED
-      ? (this.selectedSocial.status = SocialStatus.NOT_PUBLISHED)
-      : (this.selectedSocial.status = SocialStatus.PUBLISHED);
+    
 
     this.showShureWindow = true;
   }
 
   updateSocial() {
+    this.selectedSocial.status === SocialStatus.PUBLISHED
+    ? (this.selectedSocial.status = SocialStatus.NOT_PUBLISHED)
+    : (this.selectedSocial.status = SocialStatus.PUBLISHED);
+
     this.socialsService
       .updateSocial(this.selectedSocial)
       .then(() => window.location.reload());
